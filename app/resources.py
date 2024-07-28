@@ -65,7 +65,7 @@ class UserLogin(Resource):
         user = User.query.filter_by(email=data['email']).first()
 
         if user and user.password == data['password']:
-            access_token = create_access_token(identity=user.id,expires_delta=datetime.timedelta(days=1))
+            access_token = create_access_token(identity=user.id,expires_delta=False)
             return {'access_token': access_token, 'user': {'id': user.id, 'email': user.email}}, 200
         return {'message': 'Invalid credentials'}, 401
 
