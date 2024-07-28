@@ -39,6 +39,7 @@ def create_app():
     return app
 
 
+# was planning to use celery to send email reminders to participants of an event but since the time was not enough to deploy it on a server, I used apscheduler instead.
 
 # def create_celery_app():
 #     app = create_app()

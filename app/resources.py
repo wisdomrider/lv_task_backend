@@ -111,6 +111,19 @@ class EventManagement(Resource):
 
         start_time = datetime.fromisoformat(data['start_time'])
         end_time = datetime.fromisoformat(data['end_time'])
+        
+        # check if another event is scheduled at the same time
+        
+        overlapping_events = Event.query.filter(
+            Event.start_time <= end_time, Event.end_time >= start_time, Event.user_id == user_id).first()
+        
+       
+        # 12:10 - 12:30 12:11 
+        
+        
+        if overlapping_events:
+            print(overlapping_events)
+            return {'message': 'Another event is scheduled at the same time'}, 400
 
         if not data['participants']:
             participants = []
