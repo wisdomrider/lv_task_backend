@@ -10,6 +10,10 @@ def send_event_notification(event_id):
     app = create_app()
     with app.app_context():
         event = Event.query.get(event_id)
+        if event.started:
+            return
+        event.started = True
+        app.db.session.commit()
         user_id = event.user_id
         user = User.query.get(user_id)
         participants = json.loads(event.participants)
@@ -22,3 +26,4 @@ def send_event_notification(event_id):
                 recipients=participants
             )
             mail.send(msg)
+        
