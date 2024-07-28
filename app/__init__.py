@@ -7,10 +7,13 @@ from config import Config
 from flask_cors import CORS
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
+from flask_migrate import Migrate
 import logging
+
 
 db = SQLAlchemy()
 mail = Mail()
+migration = Migrate()
 
 def create_app():
     app = Flask(__name__)
@@ -20,6 +23,7 @@ def create_app():
 
     db.init_app(app)
     mail.init_app(app)
+    migration.init_app(app, db)
 
     api = Api(app)
     from app.resources import init_routes
